@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 양식</title>
+</head>
+<style>
+  .title {
+    text-align: center;
+  }
+  form {
+    display: inline-block;
+  }
+  #user_id, #user_pwd{
+    display: block;
+  }
+  button {
+    float: right;
+  }
+  .error_message {
+    display: none;
+    color: lightsalmon
+  }
+</style>
+<body>
+  <header>
+    <h1 class="title">회원가입 양식을 만들고 오류체크 하기</h1>
+    <hr>
+  </header>
+  <main>
+    <form action="">
+      <input type="text" name="userId" id="user_id">
+      <input type="password" name="userPwd" id="user_pwd">
+      <button id="submit_btn" type="button">제출</button>
+    </form>
+    <p id="length_error" class="error_message" >아이디나 비밀번호의 길이가 20자 이상입니다!</p>
+    <p id="disallow_chars_error" class="error_message">영어와 !,@,#,$,%만 포함될 수 있습니다!</p>
+    <p id="eng_error" class="error_message"></p>
+  </main>
+</body>
+<script>
+  let submitBtn = document.querySelector('#submit_btn');
+
+  submitBtn.addEventListener('click', () => {
+    let userId = document.querySelector('#user_id');
+    let userPwd = document.querySelector('#user_pwd');
+    
+    console.log(userId.value)
+    // 빈값이거나 길이가 20이상이면 종료
+    if(!checkLength(userId.value) || !checkLength(userPwd.value)) {
+      document.querySelector('#length_error').style.display = 'block';
+      return;
+    } else {
+      document.querySelector('#length_error').style.display = 'none';
+    }
+
+    if(!checkEngAndSpecialChars(userId.value) || !checkEngAndSpecialChars(userPwd.value)) {
+      document.querySelector('#disallow_chars_error').style.display = 'block';
+      return;
+    } else {
+      document.querySelector('#disallow_chars_error').style.display = 'none';
+    }
+  })
+
+  //1번째 입력 오류 검사.
+  function checkLength(str) {
+    if(str === '') return false;
+    if(str.length >= 20) return false;
+
+    return true;
+  }
+  //2번째 입력 오류 검사.
+  function checkEngAndSpecialChars(str) {
+    const allowedChars = /^[A-Za-z0-9!@#$%]+$/;
+    return allowedChars.test(str);
+  }
+</script>
+</html>
