@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #title {
+        text-align: center;
+      }
+      .list_container {
+        display: flex;
+      }
+      .list {
+        list-style: none;
+      }
+      .semester_list {
+        width: 30vw;
+      }
+      .semester {
+        border: 1px solid;
+        padding: 30px;
+      }
+      .add_lecture_modal {
+        width: 600px;
+        height: 600px;
+      }
+      a {
+        text-decoration: none;
+      }
+      #lecture_name {
+        margin-bottom: 10px;
+        display: block;
+      }
+      .dialog_title_label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">강의 메모장임</h1>
+    <main>
+      <div class="list_container">
+        <ul id="semester_list" class="list">
+          <li class="semester"><a href="" data-date="g1_s1">1학년 1학기</a></li>
+          <li class="semester"><a href="" data-date="g1_s2">1학년 2학기</a></li>
+          <li class="semester"><a href="" data-date="g2_s1">2학년 1학기</a></li>
+          <li class="semester"><a href="" data-date="g2_s2">2학년 2학기</a></li>
+          <li class="semester"><a href="" data-date="g3_s1">3학년 1학기</a></li>
+          <li class="semester"><a href="" data-date="g3_s2">3학년 2학기</a></li>
+          <li class="semester"><a href="" data-date="g4_s1">4학년 1학기</a></li>
+          <li class="semester"><a href="" data-date="g4_s2">4학년 2학기</a></li>
+        </ul>
+        <ul id="lecture_list" class="list">
+          <li><button class="add_lecture_btn">+</button></li>
+        </ul>
+      </div>
+      <dialog class="add_lecture_modal">
+        <h3>강의 추가</h3>
+        <section id="modal_main">
+          <label for="lecture_name" class="dialog_title_label">강의 이름</label>
+          <input type="text" name="lecture_name" id="lecture_name" />
+          <label for="" class="dialog_title_label">강의 요일</label>
+          <label for="monday"
+            ><input
+              type="checkbox"
+              name="monday"
+              id="monday"
+              class="days_of_week"
+              value="월요일"
+            />월요일</label
+          >
+          <label for="tuesday"
+            ><input
+              type="checkbox"
+              name="tuesday"
+              id="tuesday"
+              class="days_of_week"
+              value="화요일"
+            />화요일</label
+          >
+          <label for="wednesday"
+            ><input
+              type="checkbox"
+              name="wednesday"
+              id="wednesday"
+              class="days_of_week"
+              value="수요일"
+            />수요일</label
+          >
+          <label for="thursday"
+            ><input
+              type="checkbox"
+              name="thursday"
+              id="thursday"
+              class="days_of_week"
+              value="목요일"
+            />목요일</label
+          >
+          <label for="friday"
+            ><input
+              type="checkbox"
+              name="friday"
+              id="friday"
+              class="days_of_week"
+              value="금요일"
+            />금요일</label
+          >
+          <label for="saturday"
+            ><input
+              type="checkbox"
+              name="saturday"
+              id="saturday"
+              class="days_of_week"
+              value="토요일"
+            />토요일</label
+          >
+          <label for="sunday"
+            ><input
+              type="checkbox"
+              name="sunday"
+              id="sunday"
+              class="days_of_week"
+              value="일요일"
+            />일요일</label
+          >
+        </section>
+        <button onclick="closeModal()">제출</button>
+      </dialog>
+    </main>
+  </body>
+  <script>
+    document
+      .querySelector(".add_lecture_btn")
+      .addEventListener("click", (e) => {
+        document.querySelector(".add_lecture_modal").showModal();
+      });
+    let daysOfWeek = document.querySelectorAll(".days_of_week");
+    daysOfWeek.forEach((day) => {
+      day.addEventListener("change", (e) => {
+        let modalMain = document.querySelector("#modal_main");
+        if (e.target.checked) {
+          modalMain.insertAdjacentHTML(
+            "beforeend",
+            `
+            <section id='selected_${e.target.name}'>
+            <h4>${e.target.value}</h4>
+            <label for="start_time">시작 시간:</label>
+            <input type="time" id="start_time" name="start_time" />
+            <label for="end_time">종료 시간:</label>
+            <input type="time" id="end_time" name="end_time" />
+            </section>
+            `
+          );
+        } else {
+          document.querySelector(`#selected_${e.target.name}`).remove();
+        }
+      });
+    });
+    function closeModal() {
+      let modal = document.querySelector(".add_lecture_modal");
+      let lectureName = document.querySelector("#lecture_name").value;
+      let lectureDays = document.querySelectorAll(
+        "input[class='days_of_week']:checked"
+      );
+      let startTime = document.querySelectorAll("#start_time");
+      let endTime = document.querySelectorAll("#end_time");
+
+      let lectureList = document.querySelector("#lecture_list");
+      lectureList.insertAdjacentHTML(
+        "beforeend",
+        `
+      <li>
+        <h4>${lectureName}</h4>
+        </li>
+      `
+      );
+      modal.close();
+    }
+  </script>
+</html>
